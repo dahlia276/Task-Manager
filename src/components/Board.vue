@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref} from 'vue'
+import { ref, computed} from 'vue'
 import Column from './Column.vue'
 import type { Column as ColumnType, Task, TaskStatus } from '../types'
 
@@ -98,6 +98,16 @@ const clearCompletedTasks = () => {
     }
   }
 }
+
+const totalTasks = computed(() => {
+  return columns.value.reduce((total, column) => total + column.tasks.length, 0)
+})
+
+const completionRate = computed(() => {
+  const doneColumn = columns.value.find(col => col.id === 'done')
+  const doneCount = doneColumn ? doneColumn.tasks.length : 0
+  return totalTasks.value > 0 ? Math.round((doneCount / totalTasks.value) * 100) : 0
+})
 </script>
 
 <template>
@@ -107,6 +117,22 @@ const clearCompletedTasks = () => {
       <div class="flex items-center justify-between">
         <div>
           <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ boardTitle }}</h1>
+          <div class="flex items-center space-x-6 text-sm text-gray-600">
+  <span class="flex items-center">
+    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+    </svg>
+    {{ totalTasks }} total tasks
+  </span>
+            <span class="flex items-center">
+    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+    </svg>
+    {{ completionRate }}% complete
+  </span>
+          </div>
         </div>
 
         <!-- Board Actions -->
