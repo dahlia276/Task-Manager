@@ -29,14 +29,6 @@
           style="min-height: 100px;"
           :group="draggableOptions.group"
           :animation="draggableOptions.animation"
-          :ghost-class="draggableOptions.ghostClass"
-          :drag-class="draggableOptions.dragClass"
-          :chosen-class="draggableOptions.chosenClass"
-          :force-fallback="draggableOptions.forceFallback"
-          :fallback-class="draggableOptions.fallbackClass"
-          :fallback-on-body="draggableOptions.fallbackOnBody"
-          :swap-threshold="draggableOptions.swapThreshold"
-          :direction=undefined
       >
         <div class="pointer-events-none">
           <svg class="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -60,14 +52,6 @@
           class="space-y-2"
           :group="draggableOptions.group"
           :animation="draggableOptions.animation"
-          :ghost-class="draggableOptions.ghostClass"
-          :drag-class="draggableOptions.dragClass"
-          :chosen-class="draggableOptions.chosenClass"
-          :force-fallback="draggableOptions.forceFallback"
-          :fallback-class="draggableOptions.fallbackClass"
-          :fallback-on-body="draggableOptions.fallbackOnBody"
-          :swap-threshold="draggableOptions.swapThreshold"
-          :direction=undefined
           style="min-height: 100px;"
       >
         <Task
@@ -113,7 +97,6 @@ const handleAddTask = () => {
 
 // Handle tasks update from drag and drop
 const handleTasksUpdate = (newTasks: TaskType[]) => {
-  // Update task status to match the column
   const updatedTasks = newTasks.map(task => ({
     ...task,
     status: props.column.id as any, // Update status to match column
@@ -153,13 +136,5 @@ const columnBorderClass = computed(() => {
 const draggableOptions = {
   group: 'tasks',
   animation: 200,
-  ghostClass: 'ghost',
-  dragClass: 'drag',
-  chosenClass: 'chosen',
-  forceFallback: false,
-  fallbackClass: 'fallback',
-  fallbackOnBody: false,
-  swapThreshold: 0.65,
-  direction: 'vertical'
 }
 </script>

@@ -92,9 +92,7 @@ const handleAddTask = (columnId: string) => {
 const handleTasksUpdate = (columnId: string, newTasks: Task[]) => {
   const column = columns.value.find(col => col.id === columnId)
   if (column) {
-    // Update the column's tasks
     column.tasks = newTasks
-
     // Log the change for debugging
     console.log(`Tasks updated in column ${columnId}:`, newTasks.map(t => t.title))
   }
@@ -176,24 +174,3 @@ const completionRate = computed(() => {
     </div>
   </div>
 </template>
-
-<style scoped>
-/* Custom scrollbar for horizontal overflow */
-.overflow-x-auto::-webkit-scrollbar {
-  height: 8px;
-}
-
-.overflow-x-auto::-webkit-scrollbar-track {
-  background: #f1f5f9;
-  border-radius: 4px;
-}
-
-.overflow-x-auto::-webkit-scrollbar-thumb {
-  background: #cbd5e0;
-  border-radius: 4px;
-}
-
-.overflow-x-auto::-webkit-scrollbar-thumb:hover {
-  background: #a0aec0;
-}
-</style>
