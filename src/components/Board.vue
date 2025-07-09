@@ -49,7 +49,6 @@ const columns = ref<ColumnType[]>([
   }
 ])
 
-
 const handleTaskClick = (task: Task) => {
   console.log('Task clicked:', task)
   // TODO: Open task detail modal
@@ -89,6 +88,18 @@ const handleAddTask = (columnId: string) => {
   }
 }
 
+// Handle tasks update from drag and drop
+const handleTasksUpdate = (columnId: string, newTasks: Task[]) => {
+  const column = columns.value.find(col => col.id === columnId)
+  if (column) {
+    // Update the column's tasks
+    column.tasks = newTasks
+
+    // Log the change for debugging
+    console.log(`Tasks updated in column ${columnId}:`, newTasks.map(t => t.title))
+  }
+}
+
 // Board actions
 const clearCompletedTasks = () => {
   const doneColumn = columns.value.find(col => col.id === 'done')
@@ -118,20 +129,20 @@ const completionRate = computed(() => {
         <div>
           <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ boardTitle }}</h1>
           <div class="flex items-center space-x-6 text-sm text-gray-600">
-  <span class="flex items-center">
-    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-    </svg>
-    {{ totalTasks }} total tasks
-  </span>
             <span class="flex items-center">
-    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-    </svg>
-    {{ completionRate }}% complete
-  </span>
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+              </svg>
+              {{ totalTasks }} total tasks
+            </span>
+            <span class="flex items-center">
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              {{ completionRate }}% complete
+            </span>
           </div>
         </div>
 
@@ -159,6 +170,7 @@ const completionRate = computed(() => {
             @task-click="handleTaskClick"
             @task-edit="handleTaskEdit"
             @add-task="handleAddTask"
+            @tasks-update="handleTasksUpdate"
         />
       </div>
     </div>
